@@ -1,0 +1,49 @@
+name: CI - Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+      - develop-rabi
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::054014031295:role/pharma-dev-github-actions-role
+          aws-region: us-east-1
+
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 \
+          | docker login --username AWS \
+          --password-stdin 054014031295.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build JAR (Maven)
+        run: |
+          cd api-gateway
+          mvn clean package -DskipTests
+
+      - name: Build & Push api-gateway
+        run: |
+          docker build -t api-gateway ./api-gateway
+          docker tag api-gateway:latest 054014031295.dkr.ecr.us-east-1.amazonaws.com/api-gateway:latest
+          docker push 054014031295.dkr.ecr.us-east-1.amazonaws.com/api-gateway:latest
+
+
+
+

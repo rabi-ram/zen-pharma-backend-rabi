@@ -40,4 +40,6 @@ jobs:
           docker push 054014031295.dkr.ecr.us-east-1.amazonaws.com/api-gateway:latest
 
 
+
+  
           

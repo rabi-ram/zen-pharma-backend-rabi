@@ -101,9 +101,9 @@ terraform apply
 ```
 
 **Expected result:** Three new ECR repositories created:
-- `873135413040.dkr.ecr.us-east-1.amazonaws.com/qc-service` (dev)
-- `873135413040.dkr.ecr.us-east-1.amazonaws.com/qc-service` (qa)
-- `873135413040.dkr.ecr.us-east-1.amazonaws.com/qc-service` (prod)
+- `054014031295.dkr.ecr.us-east-1.amazonaws.com/qc-service` (dev)
+- `054014031295.dkr.ecr.us-east-1.amazonaws.com/qc-service` (qa)
+- `054014031295.dkr.ecr.us-east-1.amazonaws.com/qc-service` (prod)
 
 ---
 
@@ -353,10 +353,10 @@ These already exist for other services. Confirm they are set before pushing:
 
 | Type | Name | Description |
 |------|------|-------------|
-| Secret | `AWS_ACCOUNT_ID` | `873135413040` |
+| Secret | `AWS_ACCOUNT_ID` | `054014031295` |
 | Secret | `AWS_ROLE_ARN` | IAM role for GitHub OIDC |
 | Secret | `GITOPS_TOKEN` | GitHub PAT with `repo` scope on zen-gitops |
-| Variable | `GITOPS_REPO` | `ravdy/zen-gitops` |
+| Variable | `GITOPS_REPO` | `rabi-ram/zen-gitops` |
 
 ### 3.4 Commit and push the backend changes
 
@@ -392,7 +392,7 @@ These files tell the shared Helm chart how to deploy qc-service in each environm
 replicaCount: 1
 fullnameOverride: qc-service
 image:
-  repository: 873135413040.dkr.ecr.us-east-1.amazonaws.com/qc-service
+  repository: 054014031295.dkr.ecr.us-east-1.amazonaws.com/qc-service
   tag: sha-0000000   # CI overwrites this on first successful build
   pullPolicy: Always
 service:
@@ -564,7 +564,7 @@ metadata:
 spec:
   project: pharma
   source:
-    repoURL: https://github.com/ravdy/zen-gitops.git
+    repoURL: https://github.com/rabi-ram/zen-gitops.git
     targetRevision: HEAD
     path: helm-charts
     helm:

@@ -33,6 +33,11 @@ jobs:
           | docker login --username AWS \
           --password-stdin 054014031295.dkr.ecr.us-east-1.amazonaws.com
 
+      - name: Build JAR (Maven)
+        run: |
+          cd api-gateway
+          mvn clean package -DskipTests
+
       - name: Build & Push api-gateway
         run: |
           docker build -t api-gateway ./api-gateway
@@ -41,5 +46,4 @@ jobs:
 
 
 
-  
-          
+
